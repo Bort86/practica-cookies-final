@@ -14,6 +14,7 @@ import {INgxMyDpOptions, IMyDateModel} from 'ngx-mydatepicker';
 import {ProteinForm} from '../model/protein-form';
 import {Patient} from '../model/patient';
 import {PatientRol} from '../model/patient-rol';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-protein-form',
@@ -21,6 +22,8 @@ import {PatientRol} from '../model/patient-rol';
   styleUrls: ['./protein-form.component.css']
 })
 export class ProteinFormComponent implements OnInit {
+  cookieValue = 'UNKNOWN'
+  
   //properties
   protein : ProteinForm;
   patients : Patient[]=[];
@@ -30,7 +33,7 @@ export class ProteinFormComponent implements OnInit {
         disableSince: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day: this.today.getDate() +1}
     };
 
-  constructor() { }
+  constructor(private cookieService : CookieService) { }
 
   ngOnInit() {
     this.protein = new ProteinForm();
@@ -39,10 +42,25 @@ export class ProteinFormComponent implements OnInit {
     this.patients.push(new Patient ('Marc', 'Codina', 26, 'Calle Aquí, 3, BCN', new PatientRol(1,'sick')));
     this.patients.push(new Patient ('Pablo', 'Rodriguez', 33, 'Calle Allí, 5, Guinardó', new PatientRol(2,'healthy')));
     this.patients.push(new Patient ('Marc', 'Rodriguez', 30, 'Calle Pacá, 9, Madrid', new PatientRol(3,'urgent')));
+
+
+    //Looking for Cookies
+    if (this.cookieService.check('proteinForm')){
+      let CookieObj : any = JSON.parse(this.cookieService.get('proteinForm'));
+      this.protein.setId(CookieObj.id);
+      this.protein.setSequence(CookieObj.sequence);
+      this.protein.setEntryDate(CookieObj.entryDate);
+      this.protein.setPatient(CookieObj.patient);
+    }
+
   }
 
   proteinIntro() : void{
-    console.log(this.protein)
+    this.cookieService.delete("proteinForm");
+    this.cookieService.set('proteinForm', JSON.stringify(this.protein))
+    this.cookieValue = this.cookieService.get('proteinForm');
+    console.log(this.cookieValue);
+    //console.log(this.protein)
   }
 
 }

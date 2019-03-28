@@ -15,12 +15,16 @@ import {RnaForm} from '../model/rna-form';
 import {Patient} from '../model/patient';
 import {PatientRol} from '../model/patient-rol';
 
+//Cookies
+import {CookieService} from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-rna-form',
   templateUrl: './rna-form.component.html',
   styleUrls: ['./rna-form.component.css']
 })
 export class RnaFormComponent implements OnInit {
+  cookieValue = 'UNKNOWN';
 
   //properties
   rna : RnaForm;
@@ -32,7 +36,7 @@ export class RnaFormComponent implements OnInit {
         disableSince: {year: this.today.getFullYear(), month: this.today.getMonth()+1, day: this.today.getDate() +1}
     };
 
-  constructor() { }
+  constructor(private cookieService : CookieService) { }
 
   ngOnInit() {
     this.rna = new RnaForm();
@@ -41,10 +45,24 @@ export class RnaFormComponent implements OnInit {
     this.patients.push(new Patient ('Marc', 'Codina', 26, 'Calle Aquí, 3, BCN', new PatientRol(1,'sick')));
     this.patients.push(new Patient ('Pablo', 'Rodriguez', 33, 'Calle Allí, 5, Guinardó', new PatientRol(2,'healthy')));
     this.patients.push(new Patient ('Marc', 'Rodriguez', 30, 'Calle Pacá, 9, Madrid', new PatientRol(3,'urgent')));
+
+    //Looking for cookies
+    if (this.cookieService.check('rnaForm')){
+      let CookieObj : any = JSON.parse(this.cookieService.get('rnaForm'));
+      //Filling Up
+      this.rna.setId(CookieObj.id);
+      this.rna.setSequence(CookieObj.sequence);
+      this.rna.setEntryDate(CookieObj.entryDate);
+      this.rna.setPatient(CookieObj.patient);
+    }
   }
 
   rnaIntro() : void{
-    console.log(this.rna)
+    this.cookieService.delete("rnaForm");
+    this.cookieService.set('rnaForm', JSON.stringify(this.rna))
+    this.cookieValue = this.cookieService.get('rnaForm');
+    console.log(this.cookieValue);
+    //console.log(this.rna)
   }
 
 }

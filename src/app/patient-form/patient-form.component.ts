@@ -13,18 +13,23 @@ import { Component, OnInit } from '@angular/core';
 import {Patient} from '../model/patient';
 import {PatientRol} from '../model/patient-rol';
 
+//Cookies
+import {CookieService} from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-patient-form',
   templateUrl: './patient-form.component.html',
   styleUrls: ['./patient-form.component.css']
 })
 export class PatientFormComponent implements OnInit {
+  //declaring the cookie that we'll log in console later
+  cookieValue : any;
 
   //properties
   patient: Patient;
   patientRols : PatientRol[]=[];
 
-  constructor() { }
+  constructor(private cookieService: CookieService) { }
 
   ngOnInit() {
 
@@ -35,12 +40,28 @@ export class PatientFormComponent implements OnInit {
       this.patientRols.push(patientRolaux);
     }
 
-
     this.patient = new Patient();
+
+    //Looking for Cookies
+    if (this.cookieService.check('patientForm')){
+      let CookieObj : any = JSON.parse(this.cookieService.get('patientForm'));
+      Object.assign(this.patient, CookieObj);
+      //Setting up the id
+      this.patient.setName(CookieObj.name);
+      this.patient.setSurname(CookieObj.surname);
+      this.patient.setAge(CookieObj.age);
+      this.patient.setAddress(CookieObj.address);
+      this.patient.setRol(CookieObj.rol);
+    }
+
   }
 
   patientIntro(): void {
-    console.log(this.patient);
+    this.cookieService.delete("patientForm");
+    this.cookieService.set('patientForm', JSON.stringify(this.patient))
+    this.cookieValue = this.cookieService.get('patientForm');
+    console.log(this.cookieValue);
+    //console.log(this.patient);
 
   }
 
