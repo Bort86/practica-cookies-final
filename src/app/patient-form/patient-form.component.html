@@ -1,0 +1,93 @@
+<form #patientForm = "ngForm" (submit)="patientIntro()" novalidate>
+  <div class="container well">
+    <div class="form-horizontal">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2>New Patient Registration</h2>
+        </div>
+      </div>
+      <br/>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="formGroup">Name *</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="patientName"
+          #patientName = "ngModel"
+          [(ngModel)]="patient.name"
+          required appLengthValidator/>
+        </div>
+        <div class="has-error alert alert-danger" *ngIf="patientName.touched && patientName.invalid">
+          <span *ngIf="patientName.errors.required">Name cannot be empty</span>
+          <span *ngIf="patientName.errors.TooShort && !patientName.errors.required">Name need to have more than 1 character</span>
+          <span *ngIf="!patientName.errors.TooShort && !patientName.errors.required && patientName.errors.OnlyLetters">
+            Only letters allowed
+          </span>
+        </div>
+
+        <label class="col-sm-2 control-label" for="formGroup">Surname *</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="patientSurname"
+          #patientSurname = "ngModel"
+          [(ngModel)]="patient.surname"
+          required appLengthValidator/>
+        </div>
+        <div class="has-error alert alert-danger" *ngIf="patientSurname.touched && patientSurname.invalid">
+            <span *ngIf="patientSurname.errors.required">Surname cannot be empty</span>
+            <span *ngIf="patientSurname.errors.TooShort && !patientSurname.errors.required">Surname need to have more than 1 character</span>
+            <span *ngIf="!patientSurname.errors.TooShort && !patientSurname.errors.required && patientSurname.errors.OnlyLetters">
+                Only letters allowed
+            </span>
+          </div>
+
+        <label class="col-sm-2 control-label" for="formGroup">Age *</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="patientAge"
+          #patientAge = "ngModel"
+          [(ngModel)]="patient.age" required  appAgeValidator/>
+        </div>
+        <div class="has-error alert alert-danger" *ngIf="patientAge.touched && patientAge.invalid">
+          <span *ngIf="patientAge.errors.required">Age cannot be empty</span>
+          <span *ngIf="patientAge.errors.IsNotNumber &&!patientAge.errors.required">Is not a number</span>
+          <span *ngIf="patientAge.errors.OutofRange && !patientAge.errors.required && !patientAge.errors.IsNotNumber">Age cannot be less than 0 or more than 99</span>
+          <span *ngIf="!patientAge.errors.required && !patientAge.errors.IsNotNumber && patientAge.errors.MinorDetected">You have to be an adult</span>
+        </div>
+
+        <label class="col-sm-2 control-label" for="formGroup">Address *</label>
+        <div class="col-sm-4">
+          <input class="form-control" type="text" name="patientAddress"
+          #patientAddress = "ngModel"
+          [(ngModel)]="patient.address"
+          required />
+        </div>
+        <div class="has-error alert alert-danger" *ngIf="patientAddress.touched && patientAddress.invalid">
+          <span *ngIf="patientAddress.errors.required">Address cannot be empty</span>
+        </div>
+
+        <label class="col-sm-2 control-label" for="formGroup">Rol </label>
+        <div class="col-sm-2">
+          <select class="form-control" name="patientRol" #patientRol="ngModel"
+            [(ngModel)]="patient.rol" required>
+            <option *ngFor="let patientRol of patientRols; let i = index"
+              [ngValue]="patientRol">
+              {{patientRol.getRol()}}
+            </option>
+          </select>
+        </div>
+        <div class="has-error alert alert-danger" *ngIf="patientRol.touched && patientRol.invalid">
+          <span *ngIf="patientRol.errors.required">Rol cannot be empty</span>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="formGroup"></label>
+        <div class="col-sm-4">
+          <button type="submit" class="btn btn-success"
+          [disabled]="patientForm.invalid">Submit</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

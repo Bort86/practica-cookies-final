@@ -1,0 +1,95 @@
+<div class="container well">
+  <form class="" action="index.html" method="post">
+    <table class="table table-striped">
+      <tr>
+        <td>Filter by name</td>
+        <td>
+          <input type="text"
+          [(ngModel)] = "nameFilter" name="nameFilter"
+          (keyup)="filter()">
+        </td>
+      </tr>
+
+      <tr>
+        <td>Filter by Surname</td>
+        <td>
+          <input type="text"
+          [(ngModel)] = "surnameFilter" name="surnameFilter"
+          (keyup)="filter()">
+        </td>
+      </tr>
+
+      <tr>
+        <td>Filter by Age</td>
+        <td>
+          <input type="range" min="0" max="99"
+          [(ngModel)] = "ageFilter" name="ageFilter"
+          (change)="filter()">
+          {{ageFilter}}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Current Page</td>
+        <td>
+          {{currentPage}}
+        </td>
+      </tr>
+
+      <tr>
+        <td>Patients per page</td>
+        <td>
+          <input type="number"
+          [(ngModel)] = "itemsPerPage" name="itemsPerPage">
+        </td>
+      </tr>
+
+      <tr>
+        <td>Patients Found</td>
+        <td>
+          {{patientFiltered.length}}
+        </td>
+      </tr>
+
+      <div class="container well" *ngIf="patientFiltered.length==0">
+        No patients found
+      </div>
+
+      <div class="container well" *ngIf="patientFiltered.length>0">
+        <form #patientSearchForm="ngForm" novalidate>
+          <table class="table table-striped">
+            <tr>
+              <td>Name</td>
+              <td>Surname</td>
+              <td>Age</td>
+              <td>Address</td>
+              <td>Rol</td>
+            </tr>
+            <tr *ngFor="let patient of patientFiltered | paginate: {itemsPerPage: itemsPerPage, currentPage : currentPage}; let i = index;"
+            (click)="onSelect(patient)">
+              <td>
+                <!-- Interpolacion {{reservation.name}} -->
+                <input type="text" class="form-control"
+                #patientName{{i}}="ngModel"
+                [(ngModel)]="patient.name" name="patientName{{i}}">
+              </td>
+              <td> {{patient.getSurname()}}</td>
+              <td> {{patient.getAge()}}</td>
+              <td>{{patient.getAddress()}}</td>
+              <td> {{patient.getRol().getRol()}}</td>
+              <td>
+                <button class="btn btn-danger">X</button>
+              </td>
+              <td>
+                <button class="btn btn-primary">Go to detail</button>
+              </td>
+            </tr>
+          </table>
+          <pagination-controls (pageChange)="currentPage=$event" max-size="5" directionLinks = "true" autoHide="true"></pagination-controls>
+        </form>
+      </div>
+
+    </table>
+  </form>
+  <!-- <app-reservation-entry [reservation] = "reservationSelected" *ngIf="reservationSelected"></app-reservation-entry> -->
+</div>

@@ -1,0 +1,55 @@
+/*
+  @name= Model for protein form
+  @authors=Marc Codina & Pablo Rodriguez
+  @version= 1.0
+  @description= properties, setters 'n getters'
+  @date= 25/02/2019
+*/
+
+import {Patient} from "./patient"
+
+export class ProteinForm {
+  id: number;
+  sequence: string;
+  entryDate: any;
+  patient: Patient;
+
+  constructor(id?:number, sequence?: string, entryDate?: any, patient?: Patient){
+    this.setId(id);
+    this.setSequence(sequence);
+    this.setEntryDate(entryDate);
+    this.setPatient(patient);
+  }
+
+  getId() : number{
+    return this.id;
+  }
+
+  getSequence() : string{
+    return this.sequence;
+  }
+
+  getentryDate() : any{
+    return this.entryDate;
+  }
+
+  getPatient() : Patient{
+    return this.patient;
+  }
+
+  setId(id:number):void{
+    this.id = id;
+  }
+
+  setSequence(sequence:string):void{
+    this.sequence = sequence;
+  }
+
+  setEntryDate(entryDate:any):void{
+    this.entryDate = entryDate;
+  }
+
+  setPatient(patient:Patient):void{
+    this.patient = patient;
+  }
+}
