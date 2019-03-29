@@ -31,6 +31,16 @@ export class PatientFormComponent implements OnInit {
 
   constructor(private cookieService: CookieService) { }
 
+  /*
+    @name= ngOnInit
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= initialize the app controller, onloads patients rol in selector and
+    checks for cookies
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   ngOnInit() {
 
     let patientRolAuxs: string [] = ["healthy", "sick", "urgent" ];
@@ -56,6 +66,15 @@ export class PatientFormComponent implements OnInit {
 
   }
 
+  /*
+    @name= patientIntro()
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= deletes previous cookies and log in console a new one
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   patientIntro(): void {
     this.cookieService.delete("patientForm");
     this.cookieService.set('patientForm', JSON.stringify(this.patient))

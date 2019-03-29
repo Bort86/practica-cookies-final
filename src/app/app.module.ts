@@ -21,6 +21,8 @@ import {CookieService} from 'ngx-cookie-service';
 import { PatientSearchComponent } from './patient-search/patient-search.component';
 // Pagination
 import { NgxPaginationModule } from 'ngx-pagination';
+// Font Awesome
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 const appRoutes: Routes = [
   {path:'patient-form', component:PatientFormComponent},
@@ -49,6 +51,7 @@ const appRoutes: Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    AngularFontAwesomeModule,
     NgxMyDatePickerModule.forRoot(),
     NgxPaginationModule, //pagination
     RouterModule.forRoot(

@@ -23,7 +23,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ProteinFormComponent implements OnInit {
   cookieValue = 'UNKNOWN'
-  
+
   //properties
   protein : ProteinForm;
   patients : Patient[]=[];
@@ -35,6 +35,16 @@ export class ProteinFormComponent implements OnInit {
 
   constructor(private cookieService : CookieService) { }
 
+  /*
+    @name= ngOnInit
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= initialize the app controller, onloads patients in selector and
+    checks for cookies
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   ngOnInit() {
     this.protein = new ProteinForm();
 
@@ -55,6 +65,15 @@ export class ProteinFormComponent implements OnInit {
 
   }
 
+  /*
+    @name= proteinIntro()
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= deletes previous cookies and log in console a new one
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   proteinIntro() : void{
     this.cookieService.delete("proteinForm");
     this.cookieService.set('proteinForm', JSON.stringify(this.protein))

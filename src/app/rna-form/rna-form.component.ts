@@ -38,6 +38,16 @@ export class RnaFormComponent implements OnInit {
 
   constructor(private cookieService : CookieService) { }
 
+  /*
+    @name= ngOnInit
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= initialize the app controller, onloads rols in selector and
+    checks for cookies
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   ngOnInit() {
     this.rna = new RnaForm();
 
@@ -57,6 +67,15 @@ export class RnaFormComponent implements OnInit {
     }
   }
 
+  /*
+    @name= rnaIntro()
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= deletes previous cookies and log in console a new one
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   rnaIntro() : void{
     this.cookieService.delete("rnaForm");
     this.cookieService.set('rnaForm', JSON.stringify(this.rna))

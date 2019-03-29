@@ -28,6 +28,16 @@ export class PatientSearchComponent implements OnInit {
 
   constructor(private patientService: PatientService) { }
 
+  /*
+    @name= ngOnInit()
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= calls for method to generate random patients, sets Attributes
+    for pagination and filter
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   ngOnInit() {
 
     this.generateRandomPatients();
@@ -38,10 +48,19 @@ export class PatientSearchComponent implements OnInit {
     this.totalItems = this.patients.length;
 
 
-    //this.ageFilter = 18;
+    this.ageFilter = 18;
     this.patientFiltered = this.patients;
   }
 
+  /*
+    @name= generateRandomPatients()
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= generates 100 random patients with name, surname, rol and age
+    @date= 22/03/2019
+    @params =
+    @ returns =
+  */
   generateRandomPatients(){
     let randomName: string;
     let randomAge: number;
@@ -56,13 +75,47 @@ export class PatientSearchComponent implements OnInit {
       randomRol= new PatientRol(i, "sick " + i);
 
       let patient = new Patient(randomName,"De incógnito" + i, randomAge);
-      patient.setRol(randomRol);  
+      patient.setRol(randomRol);
       this.patients.push(patient);
     }
   }
 
+  /*
+    @name= filter()
+    @authors=Marc Codina & Pablo Rodriguez
+    @version= 2.0
+    @description= filters patients with callback function by name, surname and age
+    @date= 22/03/2019
+    @params =
+    @ returns = 3 boolean flags, so the view can confirm wheter to push the patient
+    it's checking inside the for as a filtered or a wrong one
+  */
   filter():void{
 
+  this.patientFiltered = this.patients.filter(
+    patient => {
+
+      let nameValid = false;
+      let surnameValid = false;
+      let ageValid = false;
+
+      ageValid = patient.getAge() <= this.ageFilter;
+
+      if(this.nameFilter && this.nameFilter !="") {
+        nameValid = patient.getName().toLowerCase().indexOf(this.nameFilter.toLowerCase())!=-1;
+
+      } else {
+        nameValid=true;
+      }
+
+      if(this.surnameFilter && this.surnameFilter !="") {
+        surnameValid = patient.getSurname().toLowerCase().indexOf(this.surnameFilter.toLowerCase())!=-1;
+      } else {
+        surnameValid=true;
+      }
+      return (nameValid && surnameValid && ageValid)
+      }
+    );
   }
 
 }

@@ -16,7 +16,7 @@
         <div class="has-error alert alert-danger" *ngIf="rnaId.touched && rnaId.invalid">
               <span *ngIf="rnaId.errors.required"> ID can not be empty</span>
               <span *ngIf="rnaId.errors.IsNotNumber && !rnaId.errors.required">
-                Id must be numbers only</span>
+                Id must be positive numbers only</span>
         </div>
 
         <label class="col-sm-2 control-label" for="formGroup">RNA sequence: *</label>
@@ -51,10 +51,10 @@
           [(ngModel)]="rna.entryDate" [options]="myOptions" #dp="ngx-mydatepicker" required/>
 
           <span class="input-group-btn">
-            <button type="button" class="btn btn-success" (click)="dp.toggleCalendar()">
-                <i class="glyphicon glyphicon-calendar"></i>
+            <button type="button" class="fa fa-calendar" (click)="dp.toggleCalendar()">
+              Calendar
             </button>
-        </span>
+          </span>
         </div>
         <div class="has-error alert alert-danger" *ngIf="mydate.touched && mydate.invalid">
               <span *ngIf="mydate.errors.required"> You must choose an entry date</span>
